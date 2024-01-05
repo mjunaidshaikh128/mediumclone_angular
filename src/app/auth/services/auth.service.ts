@@ -5,6 +5,7 @@ import { Observable, map } from "rxjs";
 import { CurrentUserInterface } from "src/app/shared/types/currentUser.interface";
 import { AuthResponseInterface } from "../types/authResponse.interface";
 import { environment } from "src/environments/environment";
+import { LoginRequestInterface } from "../types/loginRequestInterface";
 
 @Injectable({
     providedIn: 'root',
@@ -37,5 +38,11 @@ export class AuthService {
         const url = `https://api.realworld.io/api/users`
         // We will have to transform the data in the stream that is why using pipe and map
         return this.http.post<AuthResponseInterface>(url,data).pipe(map(response => response.user))
+    }
+
+    login(data: LoginRequestInterface): Observable<CurrentUserInterface> {
+        const url = `https://api.realworld.io/api/users/login`
+
+        return this.http.post<AuthResponseInterface>(url, data).pipe(map(response => response.user))
     }
 }
